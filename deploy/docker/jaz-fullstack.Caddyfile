@@ -1,0 +1,23 @@
+# jaz-fullstack: one origin. Caddy serves the SPA and reverse-proxies the API
+# surface to the stock backend on loopback, so the app and API share an origin
+# (no CORS, no #server connect step). The backend is unmodified.
+{
+	admin off
+}
+
+:{$PORT:8080} {
+	encode zstd gzip
+
+	# Backend surface (mirrors the frontend dev proxy) -> loopback backend.
+	@api path /health /v1/* /mcp/* /jazmem/*
+	handle @api {
+		reverse_proxy 127.0.0.1:5299
+	}
+
+	# Everything else is the SPA; unknown paths fall back to the app shell.
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}

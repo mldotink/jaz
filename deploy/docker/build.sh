@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# Build and push the two Jaz Ink images from the Jaz repo root.
+# Build and push the Jaz Ink images from the Jaz repo root.
 #
 #   docker login -u augustinast          # once
 #   REPO=augustinast/testing JAZ_VERSION=v0.0.69 deploy/docker/build.sh
 #
+# jaz-backend is self-contained; jaz-web and jaz-fullstack compile the SPA, so
+# run this from a Jaz checkout (frontend/ is not in this infra repo).
 # Override PLATFORM (default linux/amd64) for arm64 hosts.
 set -euo pipefail
 
@@ -25,4 +27,10 @@ docker buildx build --platform "${PLATFORM}" \
 	-f deploy/docker/jaz-web.Dockerfile \
 	-t "${REPO}:jaz-web" --push .
 
-echo ">> done: ${REPO}:jaz-backend  ${REPO}:jaz-web"
+echo ">> building ${REPO}:jaz-fullstack (jaz ${JAZ_VERSION}, ${PLATFORM})"
+docker buildx build --platform "${PLATFORM}" \
+	-f deploy/docker/jaz-fullstack.Dockerfile \
+	--build-arg JAZ_VERSION="${JAZ_VERSION}" \
+	-t "${REPO}:jaz-fullstack" --push .
+
+echo ">> done: ${REPO}:jaz-backend  ${REPO}:jaz-web  ${REPO}:jaz-fullstack"
