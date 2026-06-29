@@ -50,6 +50,8 @@ namespace is chosen.
   loopback and serves the SPA for the rest. Same `/var/lib/jaz` volume and
   `JAZ_ROOT_KEY` / `JAZ_PUBLIC_URL` seeding as `jaz-backend`. Because the app is
   same-origin, the browser only needs the key (`#key=<key>`), not a server URL.
+  Public device pairing is disabled by default in this image; use the root key
+  to connect additional clients.
 
 See [`docs/remote-backend.md`](https://github.com/gluonfield/jaz/blob/main/docs/remote-backend.md)
 in the Jaz repo for the full backend/runtime model.

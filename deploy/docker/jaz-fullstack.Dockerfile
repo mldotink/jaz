@@ -71,6 +71,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 ENV APPLICATION_CONFIG=/etc/jaz/application.yaml \
     HOME=/var/lib/jaz \
+    JAZ_DISABLE_PAIRING=true \
     JAZ_LOG=info \
     PORT=8080
 VOLUME ["/var/lib/jaz"]
