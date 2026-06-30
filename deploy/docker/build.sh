@@ -33,4 +33,10 @@ docker buildx build --platform "${PLATFORM}" \
 	--build-arg JAZ_VERSION="${JAZ_VERSION}" \
 	-t "${REPO}:jaz-fullstack" --push .
 
-echo ">> done: ${REPO}:jaz-backend  ${REPO}:jaz-web  ${REPO}:jaz-fullstack"
+echo ">> building ${REPO}:jaz-fullstack-custom (jaz ${JAZ_VERSION}, ${PLATFORM})"
+docker buildx build --platform "${PLATFORM}" \
+	-f deploy/docker/jaz-fullstack-custom.Dockerfile \
+	--build-arg JAZ_VERSION="${JAZ_VERSION}" \
+	-t "${REPO}:jaz-fullstack-custom" --push .
+
+echo ">> done: ${REPO}:jaz-backend  ${REPO}:jaz-web  ${REPO}:jaz-fullstack  ${REPO}:jaz-fullstack-custom"
