@@ -87,6 +87,10 @@ async function main() {
 }
 
 main().catch((err) => {
+  if (String(err.message || err).includes('device_approval_required')) {
+    console.log('Jaz device approval already active; skipping default seed')
+    return
+  }
   console.error(err.message)
   process.exit(1)
 })
