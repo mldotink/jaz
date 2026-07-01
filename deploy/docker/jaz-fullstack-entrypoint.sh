@@ -13,9 +13,23 @@ if [ -n "${JAZ_ROOT_KEY:-}" ] && [ ! -f "${AUTH_FILE}" ]; then
 	( umask 077; printf '{\n  "api_key": "%s"\n}\n' "${JAZ_ROOT_KEY}" > "${AUTH_FILE}" )
 fi
 
-# Backend stays on loopback; Caddy fronts it on ${PORT}. --public-url makes the
-# backend's issued client URLs match the public origin.
-/opt/jaz/bin/jaz --addr "127.0.0.1:5299" --public-url "${JAZ_PUBLIC_URL:-}" &
-caddy run --config /etc/caddy/Caddyfile --adapter caddyfile &
+export PORT="${PORT:-8080}"
+export JAZ_BACKEND_PORT="${JAZ_BACKEND_PORT:-5299}"
 
-wait -n
+( PORT="${JAZ_BACKEND_PORT}" /usr/local/bin/jaz-backend-entrypoint.sh ) &
+backend_pid=$!
+
+caddy run --config /etc/caddy/Caddyfile --adapter caddyfile &
+caddy_pid=$!
+
+shutdown() {
+	kill "${backend_pid}" "${caddy_pid}" 2>/dev/null || true
+}
+trap shutdown INT TERM
+
+set +e
+wait -n "${backend_pid}" "${caddy_pid}"
+status=$?
+shutdown
+wait "${backend_pid}" "${caddy_pid}" 2>/dev/null
+exit "${status}"

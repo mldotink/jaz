@@ -53,5 +53,24 @@ namespace is chosen.
   Public device pairing is disabled by default in this image; use the root key
   to connect additional clients.
 
+The baked `application.yaml` selects a Codex model provider named `custom`,
+pointing at the OpenAI-compatible endpoint `https://api.openai.com/v1` and
+reading credentials from `OPENAI_API_KEY`. At startup the images also seed an
+Ink MCP server (`https://mcp.ml.ink/`) that reads its bearer token from
+`INK_API_KEY`.
+
+```sh
+docker run --rm -p 8080:8080 \
+  -v jaz-data:/var/lib/jaz \
+  -e JAZ_ROOT_KEY=... \
+  -e OPENAI_API_KEY=... \
+  -e INK_API_KEY=... \
+  augustinast/testing:jaz-fullstack-custom
+```
+
+Set `JAZ_SEED_INK_MCP=false` to skip the Ink MCP seed. Advanced overrides:
+`JAZ_INK_MCP_URL`, `JAZ_INK_MCP_NAME`, and
+`JAZ_INK_MCP_BEARER_TOKEN_ENV_VAR`.
+
 See [`docs/remote-backend.md`](https://github.com/gluonfield/jaz/blob/main/docs/remote-backend.md)
 in the Jaz repo for the full backend/runtime model.

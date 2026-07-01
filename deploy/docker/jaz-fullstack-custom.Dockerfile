@@ -79,9 +79,10 @@ RUN set -eux; \
 COPY --from=web /src/frontend/dist-web /srv
 COPY deploy/docker/application.yaml                  /etc/jaz/application.yaml
 COPY deploy/docker/jaz-backend-entrypoint.sh         /usr/local/bin/jaz-backend-entrypoint.sh
+COPY deploy/docker/jaz-seed-defaults.sh              /usr/local/bin/jaz-seed-defaults.sh
 COPY deploy/docker/jaz-fullstack-custom-entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY deploy/docker/jaz-fullstack-custom.Caddyfile    /etc/caddy/Caddyfile
-RUN chmod +x /usr/local/bin/jaz-backend-entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/jaz-backend-entrypoint.sh /usr/local/bin/jaz-seed-defaults.sh /usr/local/bin/entrypoint.sh
 
 ENV APPLICATION_CONFIG=/etc/jaz/application.yaml \
     HOME=/var/lib/jaz \

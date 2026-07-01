@@ -48,7 +48,8 @@ RUN set -eux; \
 
 COPY deploy/docker/application.yaml          /etc/jaz/application.yaml
 COPY deploy/docker/jaz-backend-entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY deploy/docker/jaz-seed-defaults.sh      /usr/local/bin/jaz-seed-defaults.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/jaz-seed-defaults.sh
 
 ENV APPLICATION_CONFIG=/etc/jaz/application.yaml \
     HOME=/var/lib/jaz \

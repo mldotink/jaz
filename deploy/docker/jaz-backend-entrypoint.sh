@@ -17,4 +17,16 @@ fi
 # --addr binds all interfaces; the host (Ink) routes to it and terminates TLS.
 # --public-url makes printed/issued client URLs match the public origin; safe to
 # leave empty when the platform doesn't expose the service's own URL at runtime.
-exec /opt/jaz/bin/jaz --addr ":${PORT}" --public-url "${JAZ_PUBLIC_URL:-}"
+/opt/jaz/bin/jaz --addr ":${PORT}" --public-url "${JAZ_PUBLIC_URL:-}" &
+backend_pid=$!
+
+shutdown() {
+	kill "${backend_pid}" 2>/dev/null || true
+}
+trap shutdown INT TERM
+
+if ! JAZ_BACKEND_PORT="${PORT}" /usr/local/bin/jaz-seed-defaults.sh; then
+	echo "warning: failed to seed Jaz defaults" >&2
+fi
+
+wait "${backend_pid}"
