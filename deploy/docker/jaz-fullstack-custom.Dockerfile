@@ -3,9 +3,9 @@
 # jaz-fullstack-custom: single-origin Jaz with the Leeroo-inspired light theme.
 #
 #   docker buildx build -f deploy/docker/jaz-fullstack-custom.Dockerfile \
-#     --build-arg JAZ_VERSION=v0.0.75 -t augustinast/testing:jaz-fullstack-custom --push .
+#     --build-arg JAZ_VERSION=custom-main -t augustinast/testing:jaz-fullstack-custom --push .
 #
-# Build context is the Jaz repo root.
+# Build context is a Jaz checkout with this deploy/docker overlay.
 
 FROM oven/bun:1.3.5 AS web
 WORKDIR /src/frontend
@@ -40,12 +40,23 @@ JS
 EOF
 RUN VITE_JAZ_API_URL=origin bun run build:web
 
+FROM golang:1.26-bookworm AS backend
+WORKDIR /src/backend
+ARG TARGETARCH
+ARG JAZ_VERSION=custom
+COPY backend/go.mod backend/go.sum ./
+RUN go mod download
+COPY backend/ ./
+RUN set -eux; \
+    case "${TARGETARCH:-amd64}" in \
+      amd64|arm64) arch="${TARGETARCH:-amd64}";; \
+      *) echo "unsupported architecture: ${TARGETARCH}"; exit 1;; \
+    esac; \
+    CGO_ENABLED=0 GOOS=linux GOARCH="${arch}" go build -trimpath -ldflags="-s -w -X main.version=${JAZ_VERSION}" -o /out/jaz ./cmd/jaz
+
 FROM caddy:2-alpine AS caddy
 
 FROM node:22-bookworm-slim AS runtime
-
-ARG TARGETARCH
-ARG JAZ_VERSION=latest
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl git tini \
@@ -57,24 +68,7 @@ RUN useradd --system --uid 10001 --home-dir /var/lib/jaz --shell /usr/sbin/nolog
  && install -d -o jaz  -g jaz  -m 755 /var/lib/jaz /var/lib/jaz/workspaces/default \
  && install -d -o root -g root -m 755 /opt/jaz/bin /etc/jaz
 
-RUN set -eux; \
-    case "${TARGETARCH:-amd64}" in \
-      amd64|arm64) arch="${TARGETARCH:-amd64}";; \
-      *) echo "unsupported architecture: ${TARGETARCH}"; exit 1;; \
-    esac; \
-    if [ "${JAZ_VERSION}" = "latest" ]; then \
-      base="https://github.com/gluonfield/jaz/releases/latest/download"; \
-    else \
-      base="https://github.com/gluonfield/jaz/releases/download/${JAZ_VERSION}"; \
-    fi; \
-    asset="jaz-backend-linux-${arch}.tar.gz"; \
-    cd /tmp; \
-    curl -fsSLO "${base}/${asset}"; \
-    curl -fsSLO "${base}/${asset}.sha256"; \
-    test "$(awk '{print $1}' "${asset}.sha256")" = "$(sha256sum "${asset}" | awk '{print $1}')"; \
-    tar -xzf "${asset}"; \
-    install -o root -g root -m 755 jaz /opt/jaz/bin/jaz; \
-    rm -f "${asset}" "${asset}.sha256" jaz
+COPY --from=backend /out/jaz /opt/jaz/bin/jaz
 
 COPY --from=web /src/frontend/dist-web /srv
 COPY deploy/docker/application.yaml                  /etc/jaz/application.yaml
