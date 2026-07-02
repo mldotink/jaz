@@ -66,9 +66,10 @@ COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
 
 RUN useradd --system --uid 10001 --home-dir /var/lib/jaz --shell /usr/sbin/nologin jaz \
  && install -d -o jaz  -g jaz  -m 755 /var/lib/jaz /var/lib/jaz/workspaces/default \
- && install -d -o root -g root -m 755 /opt/jaz/bin /etc/jaz
+ && install -d -o root -g root -m 755 /opt/jaz/bin /etc/jaz /dist
 
 COPY --from=backend /out/jaz /opt/jaz/bin/jaz
+COPY dist/acp-adapters.json /dist/acp-adapters.json
 
 COPY --from=web /src/frontend/dist-web /srv
 COPY deploy/docker/application.yaml                  /etc/jaz/application.yaml
