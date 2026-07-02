@@ -3,7 +3,7 @@
 # jaz-fullstack-custom: single-origin Jaz with the Leeroo-inspired light theme.
 #
 #   docker buildx build -f deploy/docker/jaz-fullstack-custom.Dockerfile \
-#     --build-arg JAZ_VERSION=custom-main -t augustinast/testing:jaz-fullstack-custom --push .
+#     --build-arg JAZ_VERSION=dev -t augustinast/testing:jaz-fullstack-custom --push .
 #
 # Build context is a Jaz checkout with this deploy/docker overlay.
 
@@ -43,7 +43,7 @@ RUN VITE_JAZ_API_URL=origin bun run build:web
 FROM golang:1.26-bookworm AS backend
 WORKDIR /src/backend
 ARG TARGETARCH
-ARG JAZ_VERSION=custom
+ARG JAZ_VERSION=dev
 COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 COPY backend/ ./
