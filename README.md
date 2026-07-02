@@ -57,7 +57,8 @@ The baked `application.yaml` selects a custom OpenAI-compatible provider named
 `custom-openai`. It points at `https://api.openai.com/v1` as the example custom
 endpoint and reads credentials from `OPENAI_API_KEY`. At startup the images also
 seed an Ink MCP server (`https://mcp.ml.ink/`) that reads its bearer token from
-`INK_API_KEY`.
+`INK_API_KEY`. The custom full-stack web defaults also enable Open Preview for
+Ink/Uniforge app URLs under `*.apps.uniforge.leeroo.com`.
 
 ```sh
 docker run --rm -p 8080:8080 \

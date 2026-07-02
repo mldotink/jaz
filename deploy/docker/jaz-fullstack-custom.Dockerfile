@@ -21,6 +21,11 @@ window.__JAZ_DEFAULTS__ = {
   theme: 'light',
   effects: false,
   wideLayout: false,
+  previewPatterns: [
+    'localhost',
+    '127\\.0\\.0\\.1',
+    'https?://[^/]+\\.apps\\.uniforge\\.leeroo\\.com(?:/|$)',
+  ],
   scheme: {
     light: {
       accent: '#347ee8',
