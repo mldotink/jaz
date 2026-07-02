@@ -10,6 +10,22 @@ PORT="${PORT:-5299}"
 
 mkdir -p "${JAZ_ROOT}/workspaces/default"
 
+seed_image_skills() {
+	local dst_root="$1"
+	local src_root="/usr/local/share/jaz/skills"
+	[ -d "${src_root}" ] || return 0
+	mkdir -p "${dst_root}"
+	for src in "${src_root}"/*; do
+		[ -d "${src}" ] || continue
+		dst="${dst_root}/$(basename "${src}")"
+		[ -e "${dst}" ] && continue
+		cp -R "${src}" "${dst}"
+	done
+}
+
+seed_image_skills "${JAZ_ROOT}/skills"
+seed_image_skills "${JAZ_ROOT}/acp/codex-home/skills"
+
 if [ -n "${JAZ_ROOT_KEY:-}" ] && [ ! -f "${AUTH_FILE}" ]; then
 	( umask 077; printf '{\n  "api_key": "%s"\n}\n' "${JAZ_ROOT_KEY}" > "${AUTH_FILE}" )
 fi

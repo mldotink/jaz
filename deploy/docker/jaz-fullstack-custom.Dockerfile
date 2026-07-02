@@ -65,6 +65,7 @@ FROM node:22-bookworm-slim AS runtime
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl git tini \
+ && npm install -g @mldotink/cli@0.1.52 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
@@ -77,6 +78,7 @@ COPY --from=backend /out/jaz /opt/jaz/bin/jaz
 COPY dist/acp-adapters.json /dist/acp-adapters.json
 
 COPY --from=web /src/frontend/dist-web /srv
+COPY deploy/docker/skills /usr/local/share/jaz/skills
 COPY deploy/docker/application.yaml                  /etc/jaz/application.yaml
 COPY deploy/docker/jaz-backend-entrypoint.sh         /usr/local/bin/jaz-backend-entrypoint.sh
 COPY deploy/docker/jaz-seed-defaults.sh              /usr/local/bin/jaz-seed-defaults.sh
