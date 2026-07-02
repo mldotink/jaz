@@ -53,9 +53,10 @@ namespace is chosen.
   Public device pairing is disabled by default in this image; use the root key
   to connect additional clients.
 
-The baked `application.yaml` selects Codex's built-in `OpenAI API key` provider,
-which reads credentials from `OPENAI_API_KEY`. At startup the images also seed
-an Ink MCP server (`https://mcp.ml.ink/`) that reads its bearer token from
+The baked `application.yaml` selects a custom OpenAI-compatible provider named
+`custom-openai`. It points at `https://api.openai.com/v1` as the example custom
+endpoint and reads credentials from `OPENAI_API_KEY`. At startup the images also
+seed an Ink MCP server (`https://mcp.ml.ink/`) that reads its bearer token from
 `INK_API_KEY`.
 
 ```sh
