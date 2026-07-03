@@ -53,11 +53,14 @@ COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 COPY backend/ ./
 RUN set -eux; \
+    if [ -n "${JAZ_VERSION}" ] && [ "${JAZ_VERSION}" != "dev" ]; then \
+      echo "warning: ignoring JAZ_VERSION=${JAZ_VERSION}; custom source builds use main.version=dev so Jaz reads the bundled ACP adapter manifest" >&2; \
+    fi; \
     case "${TARGETARCH:-amd64}" in \
       amd64|arm64) arch="${TARGETARCH:-amd64}";; \
       *) echo "unsupported architecture: ${TARGETARCH}"; exit 1;; \
     esac; \
-    CGO_ENABLED=0 GOOS=linux GOARCH="${arch}" go build -trimpath -ldflags="-s -w -X main.version=${JAZ_VERSION}" -o /out/jaz ./cmd/jaz
+    CGO_ENABLED=0 GOOS=linux GOARCH="${arch}" go build -trimpath -ldflags="-s -w -X main.version=dev" -o /out/jaz ./cmd/jaz
 
 FROM caddy:2-alpine AS caddy
 

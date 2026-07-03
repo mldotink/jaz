@@ -30,6 +30,10 @@ REPO=<namespace>/<repo> JAZ_VERSION=v0.0.69 deploy/docker/build.sh
   **not** in this repo. Build them with the Jaz source tree as context, e.g. copy
   `deploy/docker/` into a Jaz checkout (or run `build.sh` from there). `jaz-web`
   has no Jaz-version pin; `jaz-fullstack` pins the backend via `JAZ_VERSION`.
+- **`jaz-fullstack-custom`** builds the backend from source and always embeds
+  `main.version=dev`, even when a `JAZ_VERSION` build arg is supplied. This is
+  intentional: source-build images rely on the bundled `/dist/acp-adapters.json`
+  instead of treating a commit SHA as a Jaz GitHub release tag.
 
 The currently published images are `augustinast/testing:jaz-backend` and
 `augustinast/testing:jaz-web`; retarget with `REPO=` once a permanent registry
