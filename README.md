@@ -130,3 +130,10 @@ OpenAI API-key provider, GPT-6 Astra, medium effort. Subsequent choices are
 preserved. The installed Codex 0.159.0 does not advertise GPT-6.1 Sol. A real
 answer check reached inference but OpenAI rejected the deployed project key with
 `401 invalid_api_key`; replace it before testing customer conversations.
+
+Model-discovery clarification: local Jaz uses the same Codex 0.159.0 with
+ChatGPT OAuth and a freshly downloaded catalog containing GPT-6.1 Sol. The cloud
+uses API-key auth with no model cache and advertises its bundled catalog. This
+alone does not establish GPT-6.1 Sol's availability through the OpenAI API;
+the invalid cloud key prevents that inference test. No OAuth credentials were
+copied and no authentication-mode switch was performed.

@@ -30,3 +30,10 @@
 - [x] Build the configuration repair image from the same pinned Jaz source fc6dfb83. Image digest: sha256:bf06b9d8225334f815f4d6372f5dcb3cb19c88006eaf4f5f4d7d72abffb49608.
 - [x] Deploy the configuration repair through Leeroo Ink: ready pod uses the exact bf06b9d8 digest, Codex is enabled with API-key auth and GPT-6 Astra / medium, and the bootstrap marker exists.
 - [ ] Verify an actual Codex answer: the real session reaches inference, then OpenAI rejects the configured project key with 401 invalid_api_key. A direct /v1/models request confirms the same verdict. Saved and environment keys match; no extra quotes or whitespace. Scratch verification session was archived. A valid replacement credential is required. GPT-6.1 Sol remains unavailable in the bundled runtime; upgrading it is separate work.
+
+Model-discovery clarification: local Jaz uses the same Codex 0.159.0 with
+ChatGPT OAuth and a freshly downloaded catalog containing GPT-6.1 Sol. The cloud
+uses API-key auth with no model cache and advertises its bundled catalog. This
+alone does not establish GPT-6.1 Sol's availability through the OpenAI API;
+the invalid cloud key prevents that inference test. No OAuth credentials were
+copied and no authentication-mode switch was performed.
