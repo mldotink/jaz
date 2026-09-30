@@ -1,42 +1,53 @@
 #!/usr/bin/env bash
-# Build and push the Jaz Ink images from the Jaz repo root.
-#
-#   docker login -u augustinast          # once
-#   REPO=augustinast/testing JAZ_VERSION=v0.0.69 deploy/docker/build.sh
-#
-# jaz-backend is self-contained; jaz-web and jaz-fullstack compile the SPA, so
-# run this from a Jaz checkout (frontend/ is not in this infra repo).
-# Override PLATFORM (default linux/amd64) for arm64 hosts.
+# Build from a committed Jaz snapshot plus this repository's Docker overlay.
 set -euo pipefail
 
 REPO="${REPO:-augustinast/testing}"
 JAZ_VERSION="${JAZ_VERSION:-latest}"
 PLATFORM="${PLATFORM:-linux/amd64}"
+IMAGES="${IMAGES:-jaz-backend jaz-web jaz-fullstack jaz-fullstack-custom}"
+PUSH="${PUSH:-true}"
 
-root="$(cd "$(dirname "$0")/../.." && pwd)"   # jaz repo root
-cd "$root"
+deploy_root="$(cd "$(dirname "$0")/../.." && pwd)"
+JAZ_SOURCE="${JAZ_SOURCE:-${deploy_root}/../jaz}"
+JAZ_REF="${JAZ_REF:-$(cat "${deploy_root}/deploy/docker/jaz-source-ref")}"
+jaz_revision="$(git -C "${JAZ_SOURCE}" rev-parse --verify "${JAZ_REF}^{commit}")"
 
-echo ">> building ${REPO}:jaz-backend (jaz ${JAZ_VERSION}, ${PLATFORM})"
-docker buildx build --platform "${PLATFORM}" \
-	-f deploy/docker/jaz-backend.Dockerfile \
-	--build-arg JAZ_VERSION="${JAZ_VERSION}" \
-	-t "${REPO}:jaz-backend" --push .
+case "${PUSH}" in
+	true)
+		output=(--push)
+		;;
+	false)
+		output=(--load)
+		;;
+	*)
+		echo "PUSH must be true or false" >&2
+		exit 1
+		;;
+esac
 
-echo ">> building ${REPO}:jaz-web (${PLATFORM})"
-docker buildx build --platform "${PLATFORM}" \
-	-f deploy/docker/jaz-web.Dockerfile \
-	-t "${REPO}:jaz-web" --push .
+build_context="$(mktemp -d "${TMPDIR:-/tmp}/jaz-image-build.XXXXXX")"
+trap 'rm -rf "${build_context}"' EXIT
+git -C "${JAZ_SOURCE}" archive "${jaz_revision}" frontend backend dist/acp-adapters.json | tar -x -C "${build_context}"
+mkdir -p "${build_context}/deploy"
+cp -R "${deploy_root}/deploy/docker" "${build_context}/deploy/docker"
 
-echo ">> building ${REPO}:jaz-fullstack (jaz ${JAZ_VERSION}, ${PLATFORM})"
-docker buildx build --platform "${PLATFORM}" \
-	-f deploy/docker/jaz-fullstack.Dockerfile \
-	--build-arg JAZ_VERSION="${JAZ_VERSION}" \
-	-t "${REPO}:jaz-fullstack" --push .
-
-echo ">> building ${REPO}:jaz-fullstack-custom (jaz ${JAZ_VERSION}, ${PLATFORM})"
-docker buildx build --platform "${PLATFORM}" \
-	-f deploy/docker/jaz-fullstack-custom.Dockerfile \
-	--build-arg JAZ_VERSION="${JAZ_VERSION}" \
-	-t "${REPO}:jaz-fullstack-custom" --push .
-
-echo ">> done: ${REPO}:jaz-backend  ${REPO}:jaz-web  ${REPO}:jaz-fullstack  ${REPO}:jaz-fullstack-custom"
+for image in ${IMAGES}; do
+	case "${image}" in
+		jaz-backend|jaz-web|jaz-fullstack|jaz-fullstack-custom)
+			;;
+		*)
+			echo "Unknown image: ${image}" >&2
+			exit 1
+			;;
+	esac
+	build_args=(buildx build --platform "${PLATFORM}"
+		-f "${build_context}/deploy/docker/${image}.Dockerfile"
+		--build-arg JAZ_VERSION="${JAZ_VERSION}")
+	if [ "${image}" = "jaz-fullstack-custom" ]; then
+		build_args+=(--label "org.opencontainers.image.revision=${jaz_revision}")
+	fi
+	build_args+=(-t "${REPO}:${image}" "${output[@]}" "${build_context}")
+	echo ">> building ${REPO}:${image} (Jaz source ${jaz_revision}, ${PLATFORM})"
+	docker "${build_args[@]}"
+done

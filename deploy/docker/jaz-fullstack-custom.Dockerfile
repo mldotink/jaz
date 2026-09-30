@@ -7,7 +7,7 @@
 #
 # Build context is a Jaz checkout with this deploy/docker overlay.
 
-FROM oven/bun:1.3.5 AS web
+FROM --platform=$BUILDPLATFORM oven/bun:1.3.5 AS web
 WORKDIR /src/frontend
 ENV ELECTRON_SKIP_BINARY_DOWNLOAD=1
 COPY frontend/package.json frontend/bun.lock ./
@@ -45,7 +45,7 @@ JS
 EOF
 RUN VITE_JAZ_API_URL=origin bun run build:web
 
-FROM golang:1.26-bookworm AS backend
+FROM --platform=$BUILDPLATFORM golang:1.26-bookworm AS backend
 WORKDIR /src/backend
 ARG TARGETARCH
 ARG JAZ_VERSION=dev

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "plan",
+    "source_url": "https://factory.8090.ai/project/1b76bcb7-21cd-466d-b708-2ded828bb0f7/skills/plan",
+    "extracted_at": "2026-09-30",
+    "source_editor_html_sha256": "7dfbfda5fb1c99bddf4cebc18582299b0f269a8c260dd352272a2525da014ee5",
+    "skill_sha256": "43d356c3ba2c0b2afe85ce2d45773b08402258d395f0c421506dc6ad05ac2f29"
+  },
+  {
+    "name": "requirements-writing-rules",
+    "source_url": "https://factory.8090.ai/project/1b76bcb7-21cd-466d-b708-2ded828bb0f7/skills/requirements_writing_rules",
+    "extracted_at": "2026-09-30",
+    "source_editor_html_sha256": "b2bfc1f6a532a270434845eaad362c2f25256c202b869ac5d6f0d57c476389fc",
+    "skill_sha256": "e43698315701946b0813eb32df152b34438cc770cee9cdcfbd62714268c6b6fe"
+  },
+  {
+    "name": "blueprints-writing-rules",
+    "source_url": "https://factory.8090.ai/project/1b76bcb7-21cd-466d-b708-2ded828bb0f7/skills/blueprints_writing_rules",
+    "extracted_at": "2026-09-30",
+    "source_editor_html_sha256": "000126eb47456ac780c2d9e9203d934c6becf542a350921ab7170ff3b5c1d734",
+    "skill_sha256": "3ec6e4aedf6e6a0d30056918202d24674ed7675e8a6bc1fb74c9b361af3adc9f"
+  },
+  {
+    "name": "work-orders-writing-rules",
+    "source_url": "https://factory.8090.ai/project/1b76bcb7-21cd-466d-b708-2ded828bb0f7/skills/work_orders_writing_rules",
+    "extracted_at": "2026-09-30",
+    "source_editor_html_sha256": "87b97246794d735c02b96106160e8c528850043429f1ba1fd2bb25576fd0778e",
+    "skill_sha256": "fcaf3cd76ced7cd845992c618f5146630f583a0562938897a20395a16a2ab04e"
+  },
+  {
+    "name": "extract-work-orders",
+    "source_url": "https://factory.8090.ai/project/1b76bcb7-21cd-466d-b708-2ded828bb0f7/skills/work_order_extraction",
+    "extracted_at": "2026-09-30",
+    "source_editor_html_sha256": "f584a05840b7ef862d59b841e10c8e2a58389efdf9e819275e51e12040dae4fe",
+    "skill_sha256": "a3123fefbb8465053e6f995216a7722d0466f5805f8d16a748bc434111ea7883"
+  },
+  {
+    "name": "phase-planning",
+    "source_url": "https://factory.8090.ai/project/1b76bcb7-21cd-466d-b708-2ded828bb0f7/skills/phase_planning",
+    "extracted_at": "2026-09-30",
+    "source_editor_html_sha256": "ca22bc80068adb82da6ceef166d7df5af5d02aaa334fb421c2e2e3fbd56e0c31",
+    "skill_sha256": "392a1ef2e38e8fe89bc256d0fb6865711a5abc58e8160f0c5695859fcc7a84a5"
+  }
+]
