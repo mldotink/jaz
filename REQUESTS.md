@@ -15,3 +15,9 @@
 - Existing-volume restart: a user-edited Plan skill is preserved and a missing Phase Planning skill is installed; authenticated catalog access continues.
 - Browser check covered the earlier `f70e9cc1` image at its unauthenticated welcome screen. The integrated browser disconnected before the final `fc6dfb83` repeat; final web assets pass HTTP checks. A credentialed migration conversation was not run in this container.
 - Image publication and live deployment are separate from this local repository/image update.
+
+## Publication and deployment
+
+- [x] Push the deployment repository. Remote `origin/main` verified at `c4d81971710add8044d0b3d255620d1d0b0bf921`.
+- [ ] Publish the verified image. Docker Hub rejects uploads without a login; the configured GHCR credential also rejects uploads because it lacks required scopes. The verified image remains local.
+- [ ] Deploy the updated image after choosing the target and making the image available. Ink Cloud MCP and the saved CLI API key authenticate successfully. `uniforge-aws` Kubernetes access also works; two existing custom Jaz deployments were found. Leeroo/Uniforge and Ink Cloud are separate targets, and the target question is pending. No live service was changed.
