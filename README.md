@@ -108,3 +108,19 @@ also works on existing volumes where those skill directories are absent; existin
 user skill directories are preserved. Agents can use the skills for customer
 intake, migration requirements, architecture and execution planning. Local tool
 and document conventions are described in the bundled README.
+
+## Live Leeroo deployment
+
+Updated 30 September 2026 through Ink in Leeroo’s AWS cluster:
+
+- Service: [jaz-mast-v5](https://jaz-mast-v5.ink.apps.uniforge.leeroo.com).
+- Ink API: `https://api.apps.uniforge.leeroo.com/graphql`; workspace `august`, project `default`.
+- Image: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz@sha256:6285bb57d48f702268a35b3332b3204d0a740946f494a299dbe85df388a925d5`.
+- Existing data volume and organisation SSO are retained.
+- Verified: Ink status `active`, pod on the exact image digest, HTTP health/web
+  app, authenticated skill catalog, all six original skill hashes and Bots API.
+  The Ink MCP connection points to Uniforge and reports `connected`.
+- Public browser access redirects to Leeroo sign-in, as expected for this service.
+
+Deployment details are recorded in [AGENTS.md](AGENTS.md). This targets the
+Leeroo-hosted Ink installation; the connected Deployink MCP targets Ink Cloud.

@@ -14,10 +14,10 @@
 - Fresh runtime: web assets, Leeroo defaults and authenticated `/v1/skills` and `/v1/bots` return successfully. All six files match their original hashes in the Jaz catalog and Codex profile.
 - Existing-volume restart: a user-edited Plan skill is preserved and a missing Phase Planning skill is installed; authenticated catalog access continues.
 - Browser check covered the earlier `f70e9cc1` image at its unauthenticated welcome screen. The integrated browser disconnected before the final `fc6dfb83` repeat; final web assets pass HTTP checks. A credentialed migration conversation was not run in this container.
-- Image publication and live deployment are separate from this local repository/image update.
+- The follow-up deployment is completed below; the original local build checks apply to the identical published digest.
 
 ## Publication and deployment
 
 - [x] Push the deployment repository. Remote `origin/main` verified at `c4d81971710add8044d0b3d255620d1d0b0bf921`.
-- [ ] Publish the verified image. Docker Hub rejects uploads without a login; the configured GHCR credential also rejects uploads because it lacks required scopes. The verified image remains local.
-- [ ] Deploy the updated image after choosing the target and making the image available. Ink Cloud MCP and the saved CLI API key authenticate successfully. `uniforge-aws` Kubernetes access also works; two existing custom Jaz deployments were found. Leeroo/Uniforge and Ink Cloud are separate targets, and the target question is pending. No live service was changed.
+- [x] Publish the verified image. Docker Hub/GHCR uploads were rejected, so it was published to Leeroo ECR as `leeroo-jaz:c4d8197`; registry digest matches the verified image. An initial attempt in Ink’s reserved build repository was rejected; the dedicated repository succeeds.
+- [x] Deploy through Ink in Leeroo’s AWS cluster, as Augustinas clarified. Used the valid Leeroo Ink API key for workspace `august` and updated existing `jaz-mast-v5` in project `default`. Ink reports `active`; pod digest, HTTP health/web app, authenticated 8090 skill catalog/original hashes, Bots API and connected Uniforge MCP pass. The existing data volume and organisation SSO are retained. Public browser access redirects to Leeroo sign-in.
