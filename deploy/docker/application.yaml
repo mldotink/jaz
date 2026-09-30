@@ -5,15 +5,9 @@ jaz:
   workspace: /var/lib/jaz/workspaces/default
   memory:
     scheduler: true
-  modelproviders:
-    custom-openai:
-      type: openai-compatible
-      label: Custom OpenAI Endpoint
-      baseurl: https://api.openai.com/v1
-      apikeyenv: OPENAI_API_KEY
   acp:
     agents:
       codex:
-        modelprovider: custom-openai
-        model: gpt-5.5
-        reasoningeffort: xhigh
+        modelprovider: openai-api-key
+        model: gpt-6-astra
+        reasoningeffort: medium

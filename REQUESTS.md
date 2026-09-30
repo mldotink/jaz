@@ -21,3 +21,11 @@
 - [x] Push the deployment repository. Remote `origin/main` verified at `c4d81971710add8044d0b3d255620d1d0b0bf921`.
 - [x] Publish the verified image. Docker Hub/GHCR uploads were rejected, so it was published to Leeroo ECR as `leeroo-jaz:c4d8197`; registry digest matches the verified image. An initial attempt in Ink’s reserved build repository was rejected; the dedicated repository succeeds.
 - [x] Deploy through Ink in Leeroo’s AWS cluster, as Augustinas clarified. Used the valid Leeroo Ink API key for workspace `august` and updated existing `jaz-mast-v5` in project `default`. Ink reports `active`; pod digest, HTTP health/web app, authenticated 8090 skill catalog/original hashes, Bots API and connected Uniforge MCP pass. The existing data volume and organisation SSO are retained. Public browser access redirects to Leeroo sign-in.
+
+## Codex deployment configuration repair
+
+- [x] Diagnose the screenshot's `reasoning effort medium: Invalid params`: Codex 0.159.0 lacks gpt-6.1-sol. Jaz preselects this unadvertised model for API-key auth, then tries a reasoning control the adapter omitted. Direct adapter probes reproduce the failure for gpt-6.1-sol and accept medium for gpt-6-sol.
+- [x] Explain core Jaz changes before editing. An isolated branch, jaz/leeroo-codex-config-fix, uses native metadata ownership for API-key model selection and rejects unadvertised models explicitly. ACP/server/settings tests, focused races and vet pass. This core fix is not merged or included in this deployment image.
+- [x] Replace the obsolete chat-only custom-openai configuration with built-in openai-api-key and an advertised GPT-6 Astra / medium default. Bootstrap Codex once when the deployment supplies OPENAI_API_KEY; preserve subsequent settings and other agents. A temporary HTTP fixture verifies initial setup and preservation on restart.
+- [x] Build the configuration repair image from the same pinned Jaz source fc6dfb83. Image digest: sha256:bf06b9d8225334f815f4d6372f5dcb3cb19c88006eaf4f5f4d7d72abffb49608.
+- [ ] Deploy and verify an actual Codex answer. GPT-6.1 Sol remains unavailable in the bundled runtime; upgrading it is separate work.

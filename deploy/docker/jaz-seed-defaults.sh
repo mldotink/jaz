@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "${JAZ_SEED_INK_MCP:-true}" = "false" ]; then
-	exit 0
-fi
-
 node <<'JS'
 const crypto = require('node:crypto')
 const fs = require('node:fs')
@@ -142,6 +138,7 @@ function sameServer(server) {
 }
 
 async function seedDefaults() {
+  if (process.env.JAZ_SEED_INK_MCP === 'false') return
   const list = await request('/v1/mcp/servers')
   const servers = Array.isArray(list.servers) ? list.servers : []
   const existing = servers.find((server) => server.name === desired.name || server.url === desired.url)
@@ -164,8 +161,30 @@ async function seedDefaults() {
   console.log('Created Ink MCP server')
 }
 
+async function seedCodex() {
+  const marker = `${root}/.state/codex-defaults-seeded.json`
+  if (fs.existsSync(marker) || !process.env.OPENAI_API_KEY) return
+  const settings = await request('/v1/settings/agents')
+  const defaults = settings.acp_options.codex
+  if (defaults.default_model_provider !== 'openai-api-key') return
+  settings.acp.codex = {
+    enabled: true,
+    model_provider: defaults.default_model_provider,
+    model: defaults.default_model,
+    reasoning_effort: defaults.default_reasoning_effort,
+    auth: { mode: 'jaz_profile' },
+  }
+  await request('/v1/settings/agents', {
+    method: 'PUT',
+    body: JSON.stringify({ acp: settings.acp }),
+  })
+  writeJSONFile(marker, { model: defaults.default_model })
+  console.log('Configured Codex with the deployment OpenAI API key')
+}
+
 async function main() {
   await waitForBackend()
+  await seedCodex()
   await seedDefaults()
 }
 
