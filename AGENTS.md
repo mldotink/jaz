@@ -8,7 +8,7 @@
 - Endpoint: `https://jaz-mast-v5.ink.apps.uniforge.leeroo.com` (Leeroo organisation SSO).
 - Data volume: `/var/lib/jaz`, existing 25 GiB volume retained.
 - Image repository: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz`.
-- Deployed image digest: `sha256:6285bb57d48f702268a35b3332b3204d0a740946f494a299dbe85df388a925d5`, tag `c4d8197`.
+- Deployed image digest: `sha256:bf06b9d8225334f815f4d6372f5dcb3cb19c88006eaf4f5f4d7d72abffb49608`, tag `09a1ddc`.
 - Jaz source: `fc6dfb83a820b1fcde2c3cece4eb14171237d913`, including inline questions, saved answers, partial submission and Bots.
 - Six extracted 8090 planning skills are bundled under `deploy/docker/skills`.
 
@@ -16,3 +16,7 @@ Ink-owned build repositories are reserved for platform builds. Publish external
 service images into the dedicated `leeroo-jaz` repository and deploy through the
 Leeroo Ink API. The connected Deployink MCP points at Ink Cloud, a separate
 installation.
+
+- Codex is seeded once with built-in `openai-api-key`, `gpt-6-astra`, `medium`; later user settings are preserved.
+- The deployed OpenAI project key returns `401 invalid_api_key`; a valid replacement is required for real answers.
+- Core capability fix `c39a7033` is isolated on `jaz/leeroo-codex-config-fix`, not merged or deployed.

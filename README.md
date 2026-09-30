@@ -115,7 +115,7 @@ Updated 30 September 2026 through Ink in Leeroo’s AWS cluster:
 
 - Service: [jaz-mast-v5](https://jaz-mast-v5.ink.apps.uniforge.leeroo.com).
 - Ink API: `https://api.apps.uniforge.leeroo.com/graphql`; workspace `august`, project `default`.
-- Image: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz@sha256:6285bb57d48f702268a35b3332b3204d0a740946f494a299dbe85df388a925d5`.
+- Image: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz@sha256:bf06b9d8225334f815f4d6372f5dcb3cb19c88006eaf4f5f4d7d72abffb49608`.
 - Existing data volume and organisation SSO are retained.
 - Verified: Ink status `active`, pod on the exact image digest, HTTP health/web
   app, authenticated skill catalog, all six original skill hashes and Bots API.
@@ -124,3 +124,9 @@ Updated 30 September 2026 through Ink in Leeroo’s AWS cluster:
 
 Deployment details are recorded in [AGENTS.md](AGENTS.md). This targets the
 Leeroo-hosted Ink installation; the connected Deployink MCP targets Ink Cloud.
+
+Codex is configured once at startup when this image has `OPENAI_API_KEY`: built-in
+OpenAI API-key provider, GPT-6 Astra, medium effort. Subsequent choices are
+preserved. The installed Codex 0.159.0 does not advertise GPT-6.1 Sol. A real
+answer check reached inference but OpenAI rejected the deployed project key with
+`401 invalid_api_key`; replace it before testing customer conversations.
