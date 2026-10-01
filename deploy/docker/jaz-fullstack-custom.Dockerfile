@@ -21,6 +21,7 @@ window.__JAZ_DEFAULTS__ = {
   theme: 'light',
   effects: false,
   wideLayout: false,
+  showModelIcons: false,
   previewPatterns: [
     'localhost',
     '127\\.0\\.0\\.1',
