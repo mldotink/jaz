@@ -18,5 +18,5 @@ Leeroo Ink API. The connected Deployink MCP points at Ink Cloud, a separate
 installation.
 
 - Live Codex defaults: built-in `openai-api-key`, `gpt-6-sol`, `medium`, saved and read back on 2026-10-01. Source configuration matches for future builds. The deployed image originally seeds `gpt-6-astra` once; later user settings are preserved.
-- The deployed OpenAI project key returns `401 invalid_api_key`; a valid replacement is required for real answers.
+- Replacement OpenAI key installed on 2026-10-01 in the service environment and saved Codex API-key profile. Provider validation returns 200; a real GPT-6 Sol / medium reply returned `LEEROO_READY`. Verification sessions were archived.
 - Core capability fix `c39a7033` is isolated on `jaz/leeroo-codex-config-fix`, not merged or deployed.

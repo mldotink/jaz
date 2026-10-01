@@ -129,13 +129,14 @@ Codex is configured once at startup when this image has `OPENAI_API_KEY`: built-
 OpenAI API-key provider, originally GPT-6 Astra with medium effort. The live saved
 default is now GPT-6 Sol / medium, verified through the settings API on October 1.
 The source configuration matches for future builds; the deployed image is unchanged.
-Subsequent choices are preserved. Cloud Codex's catalog does not advertise GPT-6.1 Sol. A real
-answer check reached inference but OpenAI rejected the deployed project key with
-`401 invalid_api_key`; replace it before testing customer conversations.
+Subsequent choices are preserved. On October 1, a replacement key was installed in
+the service environment and saved Codex API-key profile. Provider validation returns
+200, and a real GPT-6 Sol / medium session returned `LEEROO_READY`. The scratch
+verification sessions were archived. Cloud Codex's catalog does not advertise GPT-6.1 Sol.
 
 Model-discovery clarification: local Jaz uses the same Codex 0.159.0 with
 ChatGPT OAuth and a freshly downloaded catalog containing GPT-6.1 Sol. The cloud
 uses API-key auth with no model cache and advertises its bundled catalog. This
 alone does not establish GPT-6.1 Sol's availability through the OpenAI API;
-the invalid cloud key prevents that inference test. No OAuth credentials were
+inference with GPT-6.1 Sol has not been retested with the replacement key. No OAuth credentials were
 copied and no authentication-mode switch was performed.

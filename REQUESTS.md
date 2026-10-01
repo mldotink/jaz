@@ -29,13 +29,15 @@
 - [x] Replace the obsolete chat-only custom-openai configuration with built-in openai-api-key and an advertised GPT-6 Astra / medium default. Bootstrap Codex once when the deployment supplies OPENAI_API_KEY; preserve subsequent settings and other agents. A temporary HTTP fixture verifies initial setup and preservation on restart.
 - [x] Build the configuration repair image from the same pinned Jaz source fc6dfb83. Image digest: sha256:bf06b9d8225334f815f4d6372f5dcb3cb19c88006eaf4f5f4d7d72abffb49608.
 - [x] Deploy the configuration repair through Leeroo Ink: ready pod uses the exact bf06b9d8 digest, Codex is enabled with API-key auth and GPT-6 Astra / medium, and the bootstrap marker exists.
-- [ ] Verify an actual Codex answer: the real session reaches inference, then OpenAI rejects the configured project key with 401 invalid_api_key. A direct /v1/models request confirms the same verdict. Saved and environment keys match; no extra quotes or whitespace. Scratch verification session was archived. A valid replacement credential is required. GPT-6.1 Sol is absent from the cloud catalog; actual API availability has not been tested with a valid key.
+- [x] Verify an actual Codex answer: the initial test failed with 401 invalid_api_key. On 2026-10-01, the user supplied a valid replacement; it was installed through Leeroo Ink and in the saved Codex API-key profile. A real GPT-6 Sol / medium session returned exactly LEEROO_READY with idle status and no error. Both scratch sessions were archived; temporary verification files were removed. Health returns 200 and rollout is complete.
 
 - [x] Use GPT-6 Sol as requested on 2026-10-01: saved live Codex model `gpt-6-sol` with medium effort through the settings API and verified readback. Deployment source configuration matches for future builds. The running image is unchanged; settings persist on the existing volume. The deployed key still returns 401 on `/v1/models`.
+
+- [x] Install the user-supplied replacement API key: `/v1/models` returns 200 and lists `gpt-6-sol`; Ink secret import merges only OPENAI_API_KEY and restarts the existing service. The persisted Codex profile initially retained the old key, so its API-key value was also replaced. Profile and environment now match. Real reply verification above passes; no Jaz code changes or image rebuild were needed.
 
 Model-discovery clarification: local Jaz uses the same Codex 0.159.0 with
 ChatGPT OAuth and a freshly downloaded catalog containing GPT-6.1 Sol. The cloud
 uses API-key auth with no model cache and advertises its bundled catalog. This
 alone does not establish GPT-6.1 Sol's availability through the OpenAI API;
-the invalid cloud key prevents that inference test. No OAuth credentials were
+inference with GPT-6.1 Sol has not been retested with the replacement key. No OAuth credentials were
 copied and no authentication-mode switch was performed.
