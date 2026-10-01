@@ -22,6 +22,7 @@ window.__JAZ_DEFAULTS__ = {
   effects: false,
   wideLayout: false,
   showModelIcons: false,
+  homeWordmark: 'https://i.postimg.cc/HspznBkp/Chat-GPT-Image-Oct-1-2026-10-53-32-AM.png',
   previewPatterns: [
     'localhost',
     '127\\.0\\.0\\.1',
