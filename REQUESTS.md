@@ -35,6 +35,8 @@
 
 - [x] Install the user-supplied replacement API key: `/v1/models` returns 200 and lists `gpt-6-sol`; Ink secret import merges only OPENAI_API_KEY and restarts the existing service. The persisted Codex profile initially retained the old key, so its API-key value was also replaced. Profile and environment now match. Real reply verification above passes; no Jaz code changes or image rebuild were needed.
 
+- [x] Repair the existing conversation shown in the October 1 screenshot: thread 20260930T220216-a5b95522 retained its September 30 gpt-6.1-sol override and bootstrap error despite the new default. It had no native session. A guarded transaction changed only that thread's model/effort and timestamp; the prior values are recorded under `.state/20261001-hi-model-repair.json` on the data volume. History and the queued hi were preserved. Retried that queued message through the queue API: GPT-6 Sol / medium replied "Hi! What can I help you with?", status idle, no error, empty queue. Browser visual verification is SSO-blocked; live transcript API verification passes.
+
 Model-discovery clarification: local Jaz uses the same Codex 0.159.0 with
 ChatGPT OAuth and a freshly downloaded catalog containing GPT-6.1 Sol. The cloud
 uses API-key auth with no model cache and advertises its bundled catalog. This
