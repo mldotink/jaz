@@ -1,5 +1,7 @@
 # Requests
 
+- [x] Hide model icons in the Leeroo deployment using the existing `showModelIcons: false` appearance default. Packaged web configuration and the served `/jaz-defaults.js` both verify false. Published image tag `234e3f0`, digest `sha256:f76602b8b4788b206818a4e7da0dae7f17ecb04af3fc2ffd6470b2a223f854cb`, deployed through Leeroo Ink; rollout and health pass. GPT-6 Sol / medium and saved credential are preserved. Explicit browser appearance choices continue to override deployment defaults. Rendered browser verification remains blocked by Leeroo SSO.
+
 - [x] Update the Leeroo web image to the latest local Jaz main, including inline questions, saved answers and partial submission. Source pinned to `fc6dfb83a820b1fcde2c3cece4eb14171237d913`, also including the newly merged Bots changes.
 - [x] Include the customer-planning/onboarding skills extracted from 8090, preserving their original instructions and source provenance. All six skill hashes match the extraction.
 - [x] Verify the packaged build and skill availability and commit the changes. Linux amd64 image builds and starts; HTTP health/web assets, authenticated skill catalog/Bots API, original skill files in Jaz/Codex directories and existing-volume restart behaviour pass. The earlier `f70e9cc1` build loaded in the integrated browser; final `fc6dfb83` web assets pass HTTP checks.

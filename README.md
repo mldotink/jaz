@@ -111,11 +111,13 @@ and document conventions are described in the bundled README.
 
 ## Live Leeroo deployment
 
-Updated 30 September 2026 through Ink in Leeroo’s AWS cluster:
+Updated 1 October 2026 through Ink in Leeroo’s AWS cluster:
 
 - Service: [jaz-mast-v5](https://jaz-mast-v5.ink.apps.uniforge.leeroo.com).
 - Ink API: `https://api.apps.uniforge.leeroo.com/graphql`; workspace `august`, project `default`.
-- Image: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz@sha256:bf06b9d8225334f815f4d6372f5dcb3cb19c88006eaf4f5f4d7d72abffb49608`.
+- Image: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz@sha256:f76602b8b4788b206818a4e7da0dae7f17ecb04af3fc2ffd6470b2a223f854cb`.
+- Model icons are hidden by default (`showModelIcons: false`). Existing explicit
+  appearance choices in a browser take precedence.
 - Existing data volume and organisation SSO are retained.
 - Verified: Ink status `active`, pod on the exact image digest, HTTP health/web
   app, authenticated skill catalog, all six original skill hashes and Bots API.
@@ -126,9 +128,8 @@ Deployment details are recorded in [AGENTS.md](AGENTS.md). This targets the
 Leeroo-hosted Ink installation; the connected Deployink MCP targets Ink Cloud.
 
 Codex is configured once at startup when this image has `OPENAI_API_KEY`: built-in
-OpenAI API-key provider, originally GPT-6 Astra with medium effort. The live saved
-default is now GPT-6 Sol / medium, verified through the settings API on October 1.
-The source configuration matches for future builds; the deployed image is unchanged.
+OpenAI API-key provider, GPT-6 Sol with medium effort. The live saved default
+matches, verified through the settings API on October 1.
 Subsequent choices are preserved. On October 1, a replacement key was installed in
 the service environment and saved Codex API-key profile. Provider validation returns
 200, and a real GPT-6 Sol / medium session returned `LEEROO_READY`. The scratch
