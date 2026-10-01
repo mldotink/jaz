@@ -17,6 +17,6 @@ service images into the dedicated `leeroo-jaz` repository and deploy through the
 Leeroo Ink API. The connected Deployink MCP points at Ink Cloud, a separate
 installation.
 
-- Codex is seeded once with built-in `openai-api-key`, `gpt-6-astra`, `medium`; later user settings are preserved.
+- Live Codex defaults: built-in `openai-api-key`, `gpt-6-sol`, `medium`, saved and read back on 2026-10-01. Source configuration matches for future builds. The deployed image originally seeds `gpt-6-astra` once; later user settings are preserved.
 - The deployed OpenAI project key returns `401 invalid_api_key`; a valid replacement is required for real answers.
 - Core capability fix `c39a7033` is isolated on `jaz/leeroo-codex-config-fix`, not merged or deployed.

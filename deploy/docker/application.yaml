@@ -9,5 +9,5 @@ jaz:
     agents:
       codex:
         modelprovider: openai-api-key
-        model: gpt-6-astra
+        model: gpt-6-sol
         reasoningeffort: medium

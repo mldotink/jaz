@@ -126,8 +126,10 @@ Deployment details are recorded in [AGENTS.md](AGENTS.md). This targets the
 Leeroo-hosted Ink installation; the connected Deployink MCP targets Ink Cloud.
 
 Codex is configured once at startup when this image has `OPENAI_API_KEY`: built-in
-OpenAI API-key provider, GPT-6 Astra, medium effort. Subsequent choices are
-preserved. The installed Codex 0.159.0 does not advertise GPT-6.1 Sol. A real
+OpenAI API-key provider, originally GPT-6 Astra with medium effort. The live saved
+default is now GPT-6 Sol / medium, verified through the settings API on October 1.
+The source configuration matches for future builds; the deployed image is unchanged.
+Subsequent choices are preserved. Cloud Codex's catalog does not advertise GPT-6.1 Sol. A real
 answer check reached inference but OpenAI rejected the deployed project key with
 `401 invalid_api_key`; replace it before testing customer conversations.
 
