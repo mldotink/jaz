@@ -115,9 +115,12 @@ Updated 1 October 2026 through Ink in Leeroo’s AWS cluster:
 
 - Service: [jaz-mast-v5](https://jaz-mast-v5.ink.apps.uniforge.leeroo.com).
 - Ink API: `https://api.apps.uniforge.leeroo.com/graphql`; workspace `august`, project `default`.
-- Image: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz@sha256:f76602b8b4788b206818a4e7da0dae7f17ecb04af3fc2ffd6470b2a223f854cb`.
+- Image: `221082199974.dkr.ecr.us-east-1.amazonaws.com/leeroo-jaz@sha256:29b319acde9257c0972d6f1bd902837e299cfb9259e914390b83a859acd68bb9`.
 - Model icons are hidden by default (`showModelIcons: false`). Existing explicit
   appearance choices in a browser take precedence.
+- The home screen uses the supplied [logo image](https://i.postimg.cc/HspznBkp/Chat-GPT-Image-Oct-1-2026-10-53-32-AM.png).
+- Customers MCP is saved at `https://crm.jaz.chat/mcp`. Finish OAuth sign-in under
+  Settings → MCP → Customers to make its tools available.
 - Existing data volume and organisation SSO are retained.
 - Verified: Ink status `active`, pod on the exact image digest, HTTP health/web
   app, authenticated skill catalog, all six original skill hashes and Bots API.

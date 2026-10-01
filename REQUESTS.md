@@ -1,5 +1,8 @@
 # Requests
 
+- [x] Use the supplied Postimg image as the deployment's home logo via `homeWordmark`. Packaged and live-served configuration preserve the exact URL and hidden model icons. Image loads from the deployment with HTTP 200 (1280 × 427 PNG). Published/deployed image tag `608ad64`, digest `sha256:29b319acde9257c0972d6f1bd902837e299cfb9259e914390b83a859acd68bb9`; rollout and health pass. Browser rendering remains SSO-blocked.
+- [x] Add an MCP server named Customers for https://crm.jaz.chat. Verified the documented/discovered endpoint `https://crm.jaz.chat/mcp`, created enabled server `mcp_ddbf0a8ee78f61ef`, and read it back after rollout. Connection status is `needs_auth`: OAuth sign-in is required in Settings → MCP → Customers. No CRM credentials were copied and no authenticated tools are claimed.
+
 - [x] Hide model icons in the Leeroo deployment using the existing `showModelIcons: false` appearance default. Packaged web configuration and the served `/jaz-defaults.js` both verify false. Published image tag `234e3f0`, digest `sha256:f76602b8b4788b206818a4e7da0dae7f17ecb04af3fc2ffd6470b2a223f854cb`, deployed through Leeroo Ink; rollout and health pass. GPT-6 Sol / medium and saved credential are preserved. Explicit browser appearance choices continue to override deployment defaults. Rendered browser verification remains blocked by Leeroo SSO.
 
 - [x] Update the Leeroo web image to the latest local Jaz main, including inline questions, saved answers and partial submission. Source pinned to `fc6dfb83a820b1fcde2c3cece4eb14171237d913`, also including the newly merged Bots changes.
